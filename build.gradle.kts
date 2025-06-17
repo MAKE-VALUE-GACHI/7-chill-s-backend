@@ -45,6 +45,9 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:${property("jjwtVersion")}")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:${property("jjwtVersion")}")
 
+    // Swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${property("swaggerVersion")}")
+
     // AI
     implementation("dev.langchain4j:langchain4j-open-ai:${property("langchain4jVersion")}")
 

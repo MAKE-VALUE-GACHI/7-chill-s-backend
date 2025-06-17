@@ -36,3 +36,24 @@ jwt:
   secret-key: ${JWT_SECRET_KEY:a949ce37d80bfe7a1b1b0c28ef2a4911d3eb7675149b8902925ba8e754499336}
   access-token-validity: ${JWT_ACCESS_TOKEN_VALIDITY:43200} # seconds (12 hours)
   refresh-token-validity: ${JWT_REFRESH_TOKEN_VALIDITY:604800} # seconds (1 week)
+
+springdoc:
+  swagger-ui:
+    persist-authorization: true
+    operations-sorter: alpha
+    tags-sorter: alpha
+    disable-swagger-default-url: true
+    display-request-duration: true
+    classification:
+      readyToUseGroupName: 개발 완료 API
+      workInProgressGroupName: 개발 진행중 API
+      deprecatedGroupName: 더이상 유지보수되지 않는 API
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+springdoc:
+  swagger-ui:
+    enabled: false
