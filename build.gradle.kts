@@ -1,17 +1,21 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.7"
-    kotlin("plugin.jpa") version "1.9.25"
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    kotlin("plugin.jpa")
+    kotlin("plugin.allopen")
+    kotlin("plugin.noarg")
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
-group = "gachi"
-version = "0.0.1-SNAPSHOT"
+group = "${property("projectGroup")}"
+version = "${property("applicationVersion")}"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of("${property("javaVersion")}")
     }
 }
 
@@ -20,19 +24,27 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // Data
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {
+    jvmToolchain("${property("javaVersion")}".toInt())
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
@@ -46,4 +58,13 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<Jar>("jar") {
+    enabled = false
+}
+
+tasks.named<BootJar>("bootJar") {
+    archiveBaseName = "ChillsServer"
+    archiveFileName = "ChillsServer.jar"
 }
