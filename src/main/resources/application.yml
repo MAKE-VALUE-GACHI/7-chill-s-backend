@@ -1,4 +1,5 @@
 server:
+  port: 34256
   shutdown: graceful
   error:
     whitelabel:

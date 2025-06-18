@@ -19,4 +19,4 @@ ENTRYPOINT ["sh", "-c", "java \
             -XX:CompileThreshold=200 \
            -Dspring.profiles.active=${ACTIVE_PROFILE} \
            -jar /app.jar"]
-EXPOSE 8080
+EXPOSE 34256
