@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 @EntityListeners(AuditingEntityListener::class)
 abstract class HardDeleteUuidBaseJpaEntity : Persistable<String> {
     @Id
+    @get:JvmName("id")
     @Column(name = "id", nullable = false, updatable = false, columnDefinition = "CHAR(32)")
     val id: String = IdGenerator.uuid()
 

@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 @EntityListeners(AuditingEntityListener::class)
 abstract class HardDeleteNumericBaseJpaEntity : Persistable<Long> {
     @Id
+    @get:JvmName("id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 

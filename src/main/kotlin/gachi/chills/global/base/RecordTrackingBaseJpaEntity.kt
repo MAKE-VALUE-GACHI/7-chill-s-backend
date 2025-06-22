@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 @EntityListeners(AuditingEntityListener::class)
 abstract class RecordTrackingBaseJpaEntity : Persistable<Long> {
     @Id
+    @get:JvmName("id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 
