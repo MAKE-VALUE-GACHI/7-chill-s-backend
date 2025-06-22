@@ -1,7 +1,7 @@
 package gachi.chills.domain.post.domain.model
 
 import gachi.chills.domain.topic.domain.model.Topic
-import gachi.chills.global.base.HardDeleteNumericBaseJpaEntity
+import gachi.chills.global.base.RecordTrackingBaseJpaEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -11,7 +11,7 @@ import jakarta.persistence.Table
 class PostTopic(
     post: Post,
     topic: Topic,
-) : HardDeleteNumericBaseJpaEntity() {
+) : RecordTrackingBaseJpaEntity() {
     @Column(name = "post_id", nullable = false)
     val postId: Long = post.id
 
