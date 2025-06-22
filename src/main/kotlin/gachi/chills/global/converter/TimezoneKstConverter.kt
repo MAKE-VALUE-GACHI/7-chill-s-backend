@@ -21,7 +21,7 @@ class LocalDateTimeKstSerializer : JsonSerializer<LocalDateTime>() {
     override fun serialize(
         value: LocalDateTime,
         gen: JsonGenerator,
-        serializers: SerializerProvider
+        serializers: SerializerProvider,
     ) {
         val kstString = value.atZone(ZoneId.systemDefault())
             .withZoneSameInstant(KstFormatter.ZONE_ID)
@@ -49,7 +49,7 @@ class LocalDateKstSerializer : JsonSerializer<LocalDate>() {
     override fun serialize(
         value: LocalDate,
         gen: JsonGenerator,
-        serializers: SerializerProvider
+        serializers: SerializerProvider,
     ) {
         val kstString = value.format(KstFormatter.LOCAL_DATE_FORMATTER)
         gen.writeString(kstString)
@@ -59,7 +59,7 @@ class LocalDateKstSerializer : JsonSerializer<LocalDate>() {
 class LocalDateKstDeserializer : JsonDeserializer<LocalDate>() {
     override fun deserialize(
         p: JsonParser,
-        ctxt: DeserializationContext
+        ctxt: DeserializationContext,
     ): LocalDate {
         val text = p.text
         return LocalDate.parse(text, KstFormatter.LOCAL_DATE_FORMATTER)
