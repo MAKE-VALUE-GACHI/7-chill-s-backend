@@ -12,7 +12,7 @@ class UserTopic(
     user: User,
     topic: Topic,
 ) : HardDeleteNumericBaseJpaEntity() {
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(32)")
     val userId: String = user.id
 
     @Column(name = "topic_id", nullable = false)

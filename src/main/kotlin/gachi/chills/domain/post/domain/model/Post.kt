@@ -14,7 +14,7 @@ class Post(
     content: String,
     isPublic: Boolean,
 ): HardDeleteNumericBaseJpaEntity() {
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(32)")
     val userId: String = user.id
 
     @Column(name = "title", nullable = false, columnDefinition = "VARCHAR(150)")
