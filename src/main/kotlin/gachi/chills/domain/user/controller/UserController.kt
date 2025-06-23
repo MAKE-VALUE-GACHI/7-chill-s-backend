@@ -9,6 +9,7 @@ import gachi.chills.global.aop.AccessControl
 import gachi.chills.global.aop.Allowed
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -30,7 +31,7 @@ class UserController : UserControllerDocs {
     @AccessControl(Allowed.AUTHENTICATED)
     override fun editMyProfile(
         @Auth userContext: UserContext,
-        @RequestBody request: EditMyProfileRequest,
+        @RequestBody @Valid request: EditMyProfileRequest,
     ): ResponseEntity<EditMyProfileResponse> {
         TODO("Not yet implemented")
     }
@@ -55,6 +56,6 @@ internal interface UserControllerDocs {
     )
     fun editMyProfile(
         @Auth userContext: UserContext,
-        @RequestBody request: EditMyProfileRequest,
+        @RequestBody @Valid request: EditMyProfileRequest,
     ): ResponseEntity<EditMyProfileResponse>
 }
