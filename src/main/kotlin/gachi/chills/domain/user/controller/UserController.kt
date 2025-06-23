@@ -7,7 +7,7 @@ import gachi.chills.domain.user.controller.response.GetMyProfileResponse
 import gachi.chills.global.annotation.Auth
 import gachi.chills.global.aop.AccessControl
 import gachi.chills.global.aop.Allowed
-import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -41,16 +41,16 @@ class UserController : UserControllerDocs {
     description = "유저와 관련된 API 입니다.",
 )
 internal interface UserControllerDocs {
-    @Schema(
-        title = "내 프로필 조회",
+    @Operation(
+        summary = "내 프로필 조회",
         description = "내 프로필을 조회합니다.",
     )
     fun getMyProfile(
         @Auth userContext: UserContext,
     ): ResponseEntity<GetMyProfileResponse>
 
-    @Schema(
-        title = "내 프로필 수정",
+    @Operation(
+        summary = "내 프로필 수정",
         description = "내 프로필을 수정합니다.",
     )
     fun editMyProfile(
