@@ -1,5 +1,5 @@
 server:
-  port: 34256
+  port: ${PORT:8080}
   shutdown: graceful
   error:
     whitelabel:
