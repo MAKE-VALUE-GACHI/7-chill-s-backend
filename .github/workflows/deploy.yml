@@ -38,12 +38,12 @@ jobs:
 
       - name: Copy TAR to remote server
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -o StrictHostKeyChecking=no \
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -P 107 -o StrictHostKeyChecking=no \
             chills_${{ steps.version.outputs.tag }}.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/gachi/images/chills_${{ steps.version.outputs.tag }}.tar
 
       - name: SSH into server and deploy Docker container
         run: |
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -P 107 -o StrictHostKeyChecking=no \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
               echo "🛠 Loading Docker image..."
               docker load -i /home/gachi/images/chills_${{ steps.version.outputs.tag }}.tar
