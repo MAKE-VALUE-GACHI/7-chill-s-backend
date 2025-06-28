@@ -18,8 +18,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      #      - name: Build Spring Boot JAR
-      #        run: ./gradlew build -x test
+      - name: Build Spring Boot JAR
+        run: ./gradlew build -x test
 
       - name: Build Docker image
         run: docker build -t chills:latest .
@@ -55,6 +55,13 @@ jobs:
               echo "🚀 Running new container..."
               docker run -d \
                 --name chills \
+                -e PORT=${{ secrets.PORT }} \
+                -e DB_URL=${{ secrets.DB_URL }} \
+                -e DB_USER=${{ secrets.DB_USER }} \
+                -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+                -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
+                -e JWT_ACCESS_TOKEN_VALIDITY=${{ secrets.JWT_ACCESS_TOKEN_VALIDITY }} \
+                -e JWT_REFRESH_TOKEN_VALIDITY=${{ secrets.JWT_REFRESH_TOKEN_VALIDITY }} \
                 -p 10701:8080 \
                 chills:latest
 
