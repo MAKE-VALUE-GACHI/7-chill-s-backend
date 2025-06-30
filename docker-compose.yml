@@ -16,3 +16,11 @@ services:
       - --collation-server=utf8mb4_0900_ai_ci
       - --skip-character-set-client-handshake
       - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+  redis:
+    image: redis:8.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - "./.docker/redis:/data"

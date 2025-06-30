@@ -18,4 +18,16 @@ class User(
     @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(50)")
     var email: String = email
         private set
+
+    companion object {
+        fun signUp(
+            name: String,
+            email: String,
+        ): User {
+            return User(
+                name = name,
+                email = email,
+            )
+        }
+    }
 }
