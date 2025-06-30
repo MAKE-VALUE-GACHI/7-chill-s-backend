@@ -3,7 +3,7 @@ package gachi.chills.domain.auth.service.adapter
 interface OAuthProcessor {
     fun supports(identifier: String): Boolean
 
-    fun process(code: String): SocialAuthVerifyResult
+    fun process(code: String): OAuthResult
 }
 
 enum class OAuthType(
@@ -13,15 +13,7 @@ enum class OAuthType(
     ;
 }
 
-data class SocialAuthVerifyResult(
-    val identifier: String,
+data class OAuthResult(
     val name: String,
     val email: String,
-    val emailVerified: Boolean,
-    /**
-     * Token
-     */
-    val idToken: String?,
-    val accessToken: String,
-    val refreshToken: String?,
 )
