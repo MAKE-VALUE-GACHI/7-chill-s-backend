@@ -26,12 +26,13 @@ class AuthService(
         val oAuthProcessor = oAuthProcessor.first { it.supports(request.identifier) }
         val oAuthUserInfo = oAuthProcessor.process(request.code)
 
-        val user = userRepository.findByEmail(oAuthUserInfo.email)
-            ?: User.signUp(
+        val user = userRepository.findByEmail(oAuthUserInfo.email) ?: run {
+            val user = User.signUp(
                 email = oAuthUserInfo.email,
                 name = oAuthUserInfo.name,
             )
-            .let { userRepository.save(it) }
+            return@run userRepository.save(user)
+        }
 
         val (accessToken, refreshToken) = tokenIssuer.issueToken(user.id)
 
