@@ -5,4 +5,6 @@ import gachi.chills.global.base.BaseJpaRepository
 
 interface UserTopicRepository : BaseJpaRepository<UserTopic, Long> {
     fun findAllByUserId(userId: String): List<UserTopic>
+
+    fun deleteAllByUserId(userId: String)
 }

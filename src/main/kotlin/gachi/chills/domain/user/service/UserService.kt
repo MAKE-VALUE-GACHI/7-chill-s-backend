@@ -48,21 +48,27 @@ class UserService(
 
         val topics = topicRepository.findAllById(request.topicIds)
 
-        val originalUserTopics = userTopicRepository.findAllByUserId(user.id)
-        val newUserTopics = topics.map { topic ->
+        /**
+         * 최적화 방안
+         *  - 토픽 수가 많지 않을 거라 판단하여 기존 관계 삭제 후 새로 저장하는 플로우로 구현
+         *  - 만약 토픽 수가 많아질 경우 `@Modifying` + `JPQL`을 활용하거나 native query 활용 필요
+         */
+        val userTopics = topics.map { topic ->
             UserTopic(
                 user = user,
                 topic = topic,
             )
-        }
+        }.let { userTopics ->
+            // 기존 관계 삭제
+            userTopicRepository.deleteAllByUserId(user.id)
 
-        val mergedUserTopics = userTopicRepository.saveAll(
-            (originalUserTopics + newUserTopics).distinctBy { it.topicId }
-        )
+            // 요청받은 토픽으로만 관계 생성
+            userTopicRepository.saveAll(userTopics)
+        }
 
         return EditMyProfileResponse.of(
             user = user,
-            topicIds = mergedUserTopics.map { it.topicId }
+            topicIds = userTopics.map { it.topicId }
         )
     }
 }
