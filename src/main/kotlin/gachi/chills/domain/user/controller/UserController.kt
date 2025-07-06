@@ -4,6 +4,7 @@ import gachi.chills.domain.auth.domain.model.UserContext
 import gachi.chills.domain.user.controller.request.EditMyProfileRequest
 import gachi.chills.domain.user.controller.response.EditMyProfileResponse
 import gachi.chills.domain.user.controller.response.GetMyProfileResponse
+import gachi.chills.domain.user.service.UserService
 import gachi.chills.global.annotation.Auth
 import gachi.chills.global.aop.AccessControl
 import gachi.chills.global.aop.Allowed
@@ -19,12 +20,15 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/v1/users")
-class UserController : UserControllerDocs {
+class UserController(
+    private val userService: UserService,
+) : UserControllerDocs {
     @GetMapping("/me")
     override fun getMyProfile(
         @Auth userContext: UserContext,
     ): ResponseEntity<GetMyProfileResponse> {
-        TODO("Not yet implemented")
+        val result = userService.getMyProfile(userContext)
+        return ResponseEntity.ok(result)
     }
 
     @PatchMapping
@@ -33,7 +37,8 @@ class UserController : UserControllerDocs {
         @Auth userContext: UserContext,
         @RequestBody @Valid request: EditMyProfileRequest,
     ): ResponseEntity<EditMyProfileResponse> {
-        TODO("Not yet implemented")
+        val result = userService.editMyProfile(userContext, request)
+        return ResponseEntity.ok(result)
     }
 }
 
