@@ -8,6 +8,8 @@ import gachi.chills.domain.auth.service.support.TokenCookieManager
 import gachi.chills.global.annotation.Auth
 import gachi.chills.global.annotation.ExtractToken
 import gachi.chills.global.annotation.TokenType
+import gachi.chills.global.aop.AccessControl
+import gachi.chills.global.aop.Allowed
 import gachi.chills.global.config.RedirectProperties
 import gachi.chills.global.util.redirect
 import gachi.chills.global.util.toURI
@@ -32,6 +34,7 @@ class AuthController(
     private val redirectProperties: RedirectProperties,
 ) : AuthControllerDocs {
     @Hidden
+    @AccessControl(Allowed.AUTHENTICATED)
     @GetMapping("/login/oauth")
     fun login(
         @ModelAttribute request: OAuthLoginAuthRequest,
@@ -48,6 +51,7 @@ class AuthController(
         return redirect(redirectProperties.afterLogin.url.toURI())
     }
 
+    @AccessControl(Allowed.AUTHENTICATED)
     @PostMapping("/reissue")
     override fun reissueToken(
         @ExtractToken(TokenType.REFRESH) refreshToken: String,
@@ -64,6 +68,7 @@ class AuthController(
         return ResponseEntity.noContent().build()
     }
 
+    @AccessControl(Allowed.AUTHENTICATED)
     @DeleteMapping("/logout")
     override fun logout(
         @Auth userContext: UserContext,
