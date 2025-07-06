@@ -34,7 +34,7 @@ class AuthController(
     private val redirectProperties: RedirectProperties,
 ) : AuthControllerDocs {
     @Hidden
-    @AccessControl(Allowed.AUTHENTICATED)
+    @AccessControl(Allowed.PUBLIC)
     @GetMapping("/login/oauth")
     fun login(
         @ModelAttribute request: OAuthLoginAuthRequest,
