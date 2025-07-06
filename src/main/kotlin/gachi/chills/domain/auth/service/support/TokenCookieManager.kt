@@ -76,22 +76,27 @@ class TokenCookieManager(
         request: HttpServletRequest,
         response: HttpServletResponse,
     ) {
-        response.addHeader(
-            HttpHeaders.SET_COOKIE,
-            ResponseCookie
-                .from(TokenType.ACCESS_TOKEN_COOKIE, "")
-                .maxAge(1)
-                .sameSite(checkRequestOriginAndApplySameSite(request).attributeValue())
-                .secure(isLocalRequest(request).not())
-                .httpOnly(true)
-                .path("/")
-                .build()
-                .toString(),
+        expireCookie(
+            request = request,
+            response = response,
+            tokenType = TokenType.ACCESS_TOKEN_COOKIE,
         )
+        expireCookie(
+            request = request,
+            response = response,
+            tokenType = TokenType.REFRESH_TOKEN_COOKIE,
+        )
+    }
+
+    private fun expireCookie(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        tokenType: String,
+    ) {
         response.addHeader(
             HttpHeaders.SET_COOKIE,
             ResponseCookie
-                .from(TokenType.REFRESH_TOKEN_COOKIE, "")
+                .from(tokenType, "")
                 .maxAge(1)
                 .sameSite(checkRequestOriginAndApplySameSite(request).attributeValue())
                 .secure(isLocalRequest(request).not())
