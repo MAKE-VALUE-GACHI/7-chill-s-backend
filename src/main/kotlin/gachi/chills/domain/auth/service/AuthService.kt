@@ -1,6 +1,6 @@
 package gachi.chills.domain.auth.service
 
-import gachi.chills.domain.auth.controller.request.LoginAuthRequest
+import gachi.chills.domain.auth.controller.request.OAuthLoginAuthRequest
 import gachi.chills.domain.auth.controller.response.LoginAuthResponse
 import gachi.chills.domain.auth.controller.response.ReissueTokenAuthResponse
 import gachi.chills.domain.auth.domain.model.UserContext
@@ -16,13 +16,11 @@ class AuthService(
     private val userRepository: UserRepository,
     private val tokenIssuer: TokenIssuer,
 ) {
-    fun login(request: LoginAuthRequest): LoginAuthResponse {
-        return when (request) {
-            is LoginAuthRequest.OAuthLoginAuthRequest -> handleOAuthLogin(request)
-        }
+    fun login(request: OAuthLoginAuthRequest): LoginAuthResponse {
+        return handleOAuthLogin(request)
     }
 
-    private fun handleOAuthLogin(request: LoginAuthRequest.OAuthLoginAuthRequest): LoginAuthResponse {
+    private fun handleOAuthLogin(request: OAuthLoginAuthRequest): LoginAuthResponse {
         val oAuthProcessor = oAuthProcessor.first { it.supports(request.identifier) }
         val oAuthUserInfo = oAuthProcessor.process(request.code)
 

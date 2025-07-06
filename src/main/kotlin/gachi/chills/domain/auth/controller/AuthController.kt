@@ -1,6 +1,6 @@
 package gachi.chills.domain.auth.controller
 
-import gachi.chills.domain.auth.controller.request.LoginAuthRequest
+import gachi.chills.domain.auth.controller.request.OAuthLoginAuthRequest
 import gachi.chills.domain.auth.controller.response.ReissueTokenAuthResponse
 import gachi.chills.domain.auth.domain.model.UserContext
 import gachi.chills.domain.auth.service.AuthService
@@ -32,9 +32,9 @@ class AuthController(
     private val redirectProperties: RedirectProperties,
 ) : AuthControllerDocs {
     @Hidden
-    @GetMapping("/login")
+    @GetMapping("/login/oauth")
     fun login(
-        @ModelAttribute request: LoginAuthRequest,
+        @ModelAttribute request: OAuthLoginAuthRequest,
         httpRequest: HttpServletRequest,
         httpResponse: HttpServletResponse,
     ): ResponseEntity<Unit> {

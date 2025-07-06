@@ -36,3 +36,14 @@ data class RedirectProperties(
         val url: String,
     )
 }
+
+@ConfigurationProperties(prefix = "oauth")
+data class OAuthProperties(
+    val google: Google,
+) {
+    data class Google(
+        val clientId: String,
+        val clientSecret: String,
+        val redirectUri: String,
+    )
+}
