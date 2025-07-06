@@ -30,7 +30,7 @@ class TokenCookieManager(
             request = request,
             response = response,
             tokenType = TokenType.REFRESH_TOKEN_COOKIE,
-            token = accessToken,
+            token = refreshToken,
         )
     }
 
@@ -40,7 +40,7 @@ class TokenCookieManager(
         tokenType: String,
         token: String,
     ) {
-        response.setHeader(
+        response.addHeader(
             HttpHeaders.SET_COOKIE,
             generateCookie(
                 request = request,
@@ -55,9 +55,15 @@ class TokenCookieManager(
         tokenType: String,
         token: String,
     ): String {
+        val maxAge = when (tokenType) {
+            TokenType.ACCESS_TOKEN_COOKIE -> tokenProperties.accessTokenValidity
+            TokenType.REFRESH_TOKEN_COOKIE -> tokenProperties.refreshTokenValidity
+            else -> tokenProperties.refreshTokenValidity
+        }
+        
         return ResponseCookie
             .from(tokenType, token)
-            .maxAge(tokenProperties.refreshTokenValidity)
+            .maxAge(maxAge)
             .sameSite(checkRequestOriginAndApplySameSite(request).attributeValue())
             .secure(isLocalRequest(request).not())
             .httpOnly(true)
@@ -70,12 +76,24 @@ class TokenCookieManager(
         request: HttpServletRequest,
         response: HttpServletResponse,
     ) {
-        response.setHeader(
+        response.addHeader(
+            HttpHeaders.SET_COOKIE,
+            ResponseCookie
+                .from(TokenType.ACCESS_TOKEN_COOKIE, "")
+                .maxAge(1)
+                .sameSite(checkRequestOriginAndApplySameSite(request).attributeValue())
+                .secure(isLocalRequest(request).not())
+                .httpOnly(true)
+                .path("/")
+                .build()
+                .toString(),
+        )
+        response.addHeader(
             HttpHeaders.SET_COOKIE,
             ResponseCookie
                 .from(TokenType.REFRESH_TOKEN_COOKIE, "")
                 .maxAge(1)
-                .sameSite(Cookie.SameSite.LAX.attributeValue())
+                .sameSite(checkRequestOriginAndApplySameSite(request).attributeValue())
                 .secure(isLocalRequest(request).not())
                 .httpOnly(true)
                 .path("/")
