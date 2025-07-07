@@ -16,8 +16,13 @@ class User(
         private set
 
     @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(50)")
-    var email: String = email
-        private set
+    val email: String = email
+
+    fun editName(name: String): User {
+        return this.apply {
+            this.name = name
+        }
+    }
 
     companion object {
         fun signUp(
