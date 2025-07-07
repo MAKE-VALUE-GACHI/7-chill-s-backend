@@ -14,3 +14,36 @@ data class SwaggerClassificationProperties(
     val workInProgressGroupName: String,
     val deprecatedGroupName: String,
 )
+
+@ConfigurationProperties(prefix = "token")
+data class TokenProperties(
+    val secretKey: String,
+    val accessTokenValidity: Long,
+    val refreshTokenValidity: Long,
+)
+
+@ConfigurationProperties(prefix = "spring.data.redis")
+data class RedisProperties(
+    val host: String,
+    val port: Int,
+)
+
+@ConfigurationProperties(prefix = "redirect")
+data class RedirectProperties(
+    val afterLogin: Url,
+) {
+    data class Url(
+        val url: String,
+    )
+}
+
+@ConfigurationProperties(prefix = "oauth")
+data class OAuthProperties(
+    val google: Google,
+) {
+    data class Google(
+        val clientId: String,
+        val clientSecret: String,
+        val redirectUri: String,
+    )
+}
