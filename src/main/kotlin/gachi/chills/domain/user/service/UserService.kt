@@ -32,7 +32,7 @@ class UserService(
 
         return GetMyProfileResponse.of(
             user = user,
-            topicIds = topics.map { it.id },
+            topics = topics,
         )
     }
 
