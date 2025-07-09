@@ -17,11 +17,12 @@ data class PublishPostRequest(
     @field:Schema(description = "토픽 ID 목록")
     val topicIds: List<Long> = emptyList(),
 ) {
-    fun toEntity(user: User): Post {
+    fun toEntity(user: User, description: String): Post {
         return Post(
             user = user,
             title = title,
             content = content,
+            description = description,
             isPublic = isPublic,
         )
     }

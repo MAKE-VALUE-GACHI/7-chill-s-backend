@@ -12,8 +12,9 @@ class Post(
     user: User,
     title: String,
     content: String,
+    description: String,
     isPublic: Boolean,
-): HardDeleteNumericBaseJpaEntity() {
+) : HardDeleteNumericBaseJpaEntity() {
     @Column(name = "user_id", nullable = false, columnDefinition = "CHAR(32)")
     val userId: String = user.id
 
@@ -23,6 +24,10 @@ class Post(
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     var content: String = content
+        private set
+
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    var description: String = description
         private set
 
     @Column(name = "is_public", nullable = false, columnDefinition = "BIT(1)")

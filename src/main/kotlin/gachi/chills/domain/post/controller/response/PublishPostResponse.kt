@@ -14,6 +14,9 @@ data class PublishPostResponse(
     @field:Schema(description = "내용", required = true)
     val content: String,
 
+    @field:Schema(description = "요약", required = true)
+    val description: String,
+
     @field:Schema(description = "공개 여부", defaultValue = "true")
     val isPublic: Boolean = true,
     val topics: List<TopicResponse> = emptyList(),
@@ -45,6 +48,7 @@ data class PublishPostResponse(
                 title = post.title,
                 content = post.content,
                 isPublic = post.isPublic,
+                description = post.description,
                 topics = topics.map { TopicResponse.from(it) },
             )
         }

@@ -26,7 +26,10 @@ class PostService(
     ): PublishPostResponse {
         val user = userRepository.findByIdOrThrow(userContext.id)
 
-        val post = postRepository.save(request.toEntity(user))
+        // Todo AI가 요약하도록 수정
+        val description = request.content.take(500) // 최대 500자까지 설명으로 사용
+        
+        val post = postRepository.save(request.toEntity(user, description))
         val topics = topicRepository
             .findAllById(request.topicIds)
             .also { topics ->
