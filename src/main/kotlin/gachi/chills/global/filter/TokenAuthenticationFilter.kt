@@ -29,6 +29,12 @@ class TokenAuthenticationFilter(
             return filterChain.doFilter(request, response)
         }
 
+        // Todo 화이트리스트 환경변수로 관리 필요.
+        val uri = request.requestURI
+        if (uri.contains("/swagger-ui")) {
+            return filterChain.doFilter(request, response)
+        }
+
         val accessToken = TokenExtractor.extractAccessTokenOrThrow(request)
         val userId = tokenIssuer.getIdentifier(accessToken)
 
