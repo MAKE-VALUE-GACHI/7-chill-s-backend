@@ -1,5 +1,6 @@
 package gachi.chills.domain.like.service
 
+import gachi.chills.domain.auth.domain.model.UserContext
 import gachi.chills.domain.like.domain.model.Like
 import gachi.chills.domain.like.domain.repository.LikeRepository
 import gachi.chills.domain.post.domain.repository.PostRepository
@@ -17,10 +18,10 @@ class LikeService(
 ) {
     @Transactional
     fun likePost(
-        userId: String,
+        userContext: UserContext,
         postId: Long,
     ) {
-        val user = userRepository.findByIdOrThrow(userId)
+        val user = userRepository.findByIdOrThrow(userContext.id)
         val post = postRepository.findByIdOrThrow(postId)
 
         check(likeRepository.findByUserIdAndPostId(user.id, post.id) == null) {
@@ -37,10 +38,10 @@ class LikeService(
 
     @Transactional
     fun cancelLikePost(
-        userId: String,
+        userContext: UserContext,
         postId: Long,
     ) {
-        val user = userRepository.findByIdOrThrow(userId)
+        val user = userRepository.findByIdOrThrow(userContext.id)
         val post = postRepository.findByIdOrThrow(postId)
 
         val like = likeRepository.findByUserIdAndPostId(
