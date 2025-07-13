@@ -6,7 +6,9 @@ import gachi.chills.global.base.BaseJpaRepository
 import gachi.chills.global.exception.BusinessException
 import org.springframework.data.repository.findByIdOrNull
 
-interface PostRepository : BaseJpaRepository<Post, Long>
+interface PostRepository : BaseJpaRepository<Post, Long> {
+    fun findAllByUserIdOrderByCreatedAtDesc(userId: String): List<Post>
+}
 
 fun PostRepository.findByIdOrThrow(id: Long): Post {
     return findByIdOrNull(id) ?: throw BusinessException(
