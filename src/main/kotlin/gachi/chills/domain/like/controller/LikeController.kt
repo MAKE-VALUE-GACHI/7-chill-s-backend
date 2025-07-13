@@ -3,6 +3,8 @@ package gachi.chills.domain.like.controller
 import gachi.chills.domain.auth.domain.model.UserContext
 import gachi.chills.domain.like.service.LikeService
 import gachi.chills.global.annotation.Auth
+import gachi.chills.global.aop.AccessControl
+import gachi.chills.global.aop.Allowed
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class LikeController(
     private val likeService: LikeService,
 ) : LikeControllerDocs {
+    @AccessControl(Allowed.AUTHENTICATED)
     @PostMapping("/v1/posts/{id}/likes")
     override fun likePost(
         @Auth userContext: UserContext,
@@ -27,6 +30,7 @@ class LikeController(
         return ResponseEntity.noContent().build()
     }
 
+    @AccessControl(Allowed.AUTHENTICATED)
     @DeleteMapping("/v1/posts/{id}/likes")
     override fun cancelLikePost(
         @Auth userContext: UserContext,

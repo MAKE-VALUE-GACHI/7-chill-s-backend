@@ -5,9 +5,12 @@ import gachi.chills.domain.post.service.PostService
 import gachi.chills.domain.post.controller.request.PublishPostRequest
 import gachi.chills.domain.post.controller.response.PublishPostResponse
 import gachi.chills.global.annotation.Auth
+import gachi.chills.global.aop.AccessControl
+import gachi.chills.global.aop.Allowed
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 class PostController(
     private val postService: PostService,
 ) : PostControllerDocs {
+    @AccessControl(Allowed.AUTHENTICATED)
+    @PostMapping
     override fun publish(
         @Auth userContext: UserContext,
         @RequestBody request: PublishPostRequest,
